@@ -8,7 +8,7 @@ const prefs_kinki = ["三重県", "滋賀県", "京都府", "大阪府", "兵庫
 const prefs_chugoku = ["鳥取県", "島根県", "岡山県", "広島県", "山口県"];
 const prefs_shikoku = ["香川県", "愛媛県", "徳島県", "高知県"];
 const prefs_kyushu = ["福岡県", "佐賀県", "長崎県", "熊本県", "大分県", "宮崎県", "鹿児島県", "沖縄県"];
-const prefs_all = new Array();
+var prefs_all = new Array();
 
 // Bootstrap className define
 // choices: default, primary, success, info, warning, danger, link
@@ -16,13 +16,26 @@ const btn_classname_selected = 'btn btn-primary'
 const btn_classname_not_selected = 'btn btn-default';
 
 function changeButtonStatus(e) {
-  console.log(e.className);
+  //console.log(e.name);
   if(e.className == btn_classname_selected) {
     e.className = btn_classname_not_selected;
   }
   else {
     e.className = btn_classname_selected;
   }
+}
+
+function startRoulette(e) {
+  e.disabled = true;
+  var elem = document.getElementsByName("prefs");
+  for(var i=0; i<prefs_all.length; i++) {
+    if(elem[i].className == btn_classname_not_selected) {
+      elem[i].disabled = true;
+    }
+  }
+}
+
+function stopRoulette(e) {
 }
 
 function init() {
@@ -39,7 +52,7 @@ function init() {
   }
 
   function createButtonHTML(btn_name) {
-    var html_created = "<button type='button' class='" + btn_classname_selected + "' onclick='changeButtonStatus(this)'>";
+    var html_created = "<button type='button' name='prefs' class='" + btn_classname_selected + "' onclick='changeButtonStatus(this)'>";
     html_created += btn_name + "</button>";
     return html_created;
   }
@@ -49,12 +62,6 @@ function init() {
   // TODO: more concrete and readable var name
   prefs_btn_innerHTML = "";
   for(var i=0; i<prefs_all.length; i++) {
-    /*
-    if(i%7 == 0) {
-      prefs_btn_innerHTML += "<br>";
-    }
-    */
-    //prefs_btn_innerHTML += "<button type='button' class='btn btn-success' onclick='changeButtonStatus(this)'>"+prefs_all[i]+"</button>";
     prefs_btn_innerHTML += createButtonHTML(prefs_all[i]);
   }
   document.getElementById("prefs_btn").innerHTML = prefs_btn_innerHTML;
