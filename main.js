@@ -24,6 +24,7 @@ var pref_idx = new Array();
 // other global var
 var pref_elem; // used as "pref_elem[pref_idx[i]]""
 var now_selected = 0;
+var roulette_timeoutID;
 
 function changeButtonStatus(e) {
   if(e.className == btn_classname_can_be_selected) {
@@ -47,7 +48,7 @@ function moveRoulette() {
   pref_elem[pref_idx[now_selected]].className = "btn btn-warning";
   now_selected = (now_selected+1)%pref_idx.length;
 
-  setTimeout(moveRoulette, roulette_speed);
+  roulette_timeoutID = setTimeout(moveRoulette, roulette_speed);
 }
 
 function startRoulette(e) {
@@ -69,7 +70,7 @@ function startRoulette(e) {
 // TODO: create this function
 function stopRoulette(e) {
   e.disabled = true;
-  window.alert("stop!");
+  clearTimeout(roulette_timeoutID);
 }
 
 function init() {
