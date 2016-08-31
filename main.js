@@ -34,7 +34,7 @@ function changeButtonStatus(e) {
   }
 }
 
-// TODO: create this function
+// FIXME: this might be a very slow function
 function moveRoulette() {
   var idx_old = now_selected-1;
   if(idx_old < 0) {
@@ -51,7 +51,7 @@ function moveRoulette() {
 }
 
 function startRoulette(e) {
-  //e.disabled = true;
+  e.disabled = true;
   var elem = document.getElementsByName("pref");
   var length_org = pref_all.length;
   for(var i=0; i<length_org; i++) {
@@ -68,7 +68,7 @@ function startRoulette(e) {
 
 // TODO: create this function
 function stopRoulette(e) {
-  //e.disabled = true;
+  e.disabled = true;
   window.alert("stop!");
 }
 
