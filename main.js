@@ -12,7 +12,7 @@ var pref_all = new Array();
 
 // Bootstrap button className define
 // choices: default, primary, success, info, warning, danger, link
-const btn_classname_can_be_selected = 'btn btn-primary'
+const btn_classname_can_be_selected = 'btn btn-primary';
 const btn_classname_can_not_be_selected = 'btn btn-default';
 
 // const parameters
