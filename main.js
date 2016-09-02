@@ -57,11 +57,12 @@ function startRoulette(e) {
   var elem = document.getElementsByName("pref");
   var length_org = PREF_ALL.length;
   for(var i=0; i<length_org; i++) {
-    if(elem[i].className == BTN_CLASSNAME_CAN_NOT_BE_SELECTED) {
-      elem[i].disabled = true;
+    elem[i].onclick = "";
+    if(elem[i].className == BTN_CLASSNAME_CAN_BE_SELECTED) {
+      gPrefIdx.push(i);
     }
     else {
-      gPrefIdx.push(i);
+      elem[i].disabled = true;
     }
   }
   gPrefElem = document.getElementsByName("pref");
