@@ -16,7 +16,8 @@ const btn_classname_can_be_selected = 'btn btn-primary';
 const btn_classname_can_not_be_selected = 'btn btn-default';
 
 // const parameters
-const roulette_speed = 250; // [ms]
+const roulette_speed = 300; // [ms]
+const time_to_stop_max = 7000; // [ms]
 
 // var index array
 var pref_idx = new Array();
@@ -35,6 +36,11 @@ function changeButtonStatus(e) {
   }
 }
 
+function loopRoulette() {
+  moveRoulette();
+  roulette_timeoutID = setTimeout(loopRoulette, roulette_speed);
+}
+
 // FIXME: this might be a very slow function
 function moveRoulette() {
   var idx_old = now_selected-1;
@@ -47,8 +53,6 @@ function moveRoulette() {
   pref_elem[pref_idx[idx_old]].className = btn_classname_can_be_selected;
   pref_elem[pref_idx[now_selected]].className = "btn btn-warning";
   now_selected = (now_selected+1)%pref_idx.length;
-
-  roulette_timeoutID = setTimeout(moveRoulette, roulette_speed);
 }
 
 function startRoulette(e) {
@@ -64,13 +68,13 @@ function startRoulette(e) {
     }
   }
   pref_elem = document.getElementsByName("pref");
-  moveRoulette();
+  loopRoulette();
 }
 
 // TODO: create this function
 function stopRoulette(e) {
   e.disabled = true;
-  clearTimeout(roulette_timeoutID);
+  setTimeout(function() {clearTimeout(roulette_timeoutID)}, time_to_stop_max*Math.random()+3.0);
 }
 
 function init() {
