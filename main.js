@@ -1,3 +1,5 @@
+"use strict";
+
 // JP pref list
 // TODO: more plain format (using DB?)
 const PREF_HOKKAIDO = ["北海道"];
@@ -17,9 +19,10 @@ const BTN_CLASSNAME_CAN_NOT_BE_SELECTED = 'btn btn-default';
 const BTN_CLASSNAME_NOW_SELECTED        = 'btn btn-warning';
 
 // const parameters
-const ROULETTE_SPEED   = 300;  // [ms]
-const TIME_TO_STOP_MIN = 3000; // [ms]
-const TIME_TO_STOP_MAX = 7000; // [ms]
+const ROULETTE_SPEED_DEFAULT     = 300;  // [ms]
+const ROULETTE_SPEED_UPPER_LIMIT = 5000; // [ms]
+const TIME_TO_STOP_MIN           = 1000; // [ms]
+const TIME_TO_STOP_MAX           = 5000; // [ms]
 
 // other global var
 var gPrefIdx = new Array();
@@ -36,9 +39,9 @@ function changeButtonStatus(e) {
   }
 }
 
-function loopRoulette() {
+function loopRoulette(intervalTime) {
   moveRoulette();
-  gRouletteTimeoutID = setTimeout(loopRoulette, ROULETTE_SPEED);
+  gRouletteTimeoutID = setTimeout(function() {loopRoulette(intervalTime)}, intervalTime);
 }
 
 // FIXME: this might be a very slow function
@@ -49,7 +52,7 @@ function moveRoulette() {
   }
   gPrefElem[gPrefIdx[idx_old]].className = BTN_CLASSNAME_CAN_BE_SELECTED;
   gPrefElem[gPrefIdx[gNowSelected]].className = BTN_CLASSNAME_NOW_SELECTED;
-  gNowSelected = (gNowSelected+1)%gPrefIdx.length;
+  gNowSelected = (gNowSelected+1)%gPrefIdx.length; // FIXME: now "not" selected
 }
 
 function startRoulette(e) {
@@ -66,12 +69,29 @@ function startRoulette(e) {
     }
   }
   gPrefElem = document.getElementsByName("pref");
-  loopRoulette();
+  loopRoulette(ROULETTE_SPEED_DEFAULT);
 }
 
 function stopRoulette(e) {
+  function struggleRoulette(intervalTime) {
+    var timeToStop = TIME_TO_STOP_MAX*Math.random()+TIME_TO_STOP_MIN;
+    loopRoulette(intervalTime);
+    setTimeout(function() {
+      clearTimeout(gRouletteTimeoutID);
+      intervalTime += Math.random()+1000;
+      if(intervalTime < ROULETTE_SPEED_UPPER_LIMIT) {
+        struggleRoulette(intervalTime);
+      }
+      else {
+        window.alert(PREF_ALL[gPrefIdx[gNowSelected]]);
+      }
+    }, timeToStop);
+  }
+
   e.disabled = true;
-  setTimeout(function() {clearTimeout(gRouletteTimeoutID)}, TIME_TO_STOP_MAX*Math.random()+TIME_TO_STOP_MIN);
+  clearTimeout(gRouletteTimeoutID);
+  var intervalTime = ROULETTE_SPEED_DEFAULT+Math.random()*3.0;
+  struggleRoulette(intervalTime);
 }
 
 function init() {
@@ -94,7 +114,7 @@ function init() {
 
   mergepref();
 
-  btnInnerHtml = "";
+  var btnInnerHtml = "";
   for(var i=0; i<PREF_ALL.length; i++) {
     btnInnerHtml += createBtnHtml(PREF_ALL[i]);
   }
