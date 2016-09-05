@@ -28,7 +28,7 @@ const TIME_ADDED_UPPER_LIMIT     = 700;  // [ms]
 
 // other global var
 var gPrefIdx = new Array();
-var gPrefElem;                 // used as "gPrefElem[gPrefIdx[i]]"
+var gPrefElem;              // used as "gPrefElem[gPrefIdx[i]]"
 var gNowSelected;
 var gRouletteTimeoutID;
 
@@ -46,9 +46,8 @@ function loopRoulette(intervalTime) {
   gRouletteTimeoutID = setTimeout(function() {loopRoulette(intervalTime)}, intervalTime);
 }
 
-// FIXME: this might be a very slow function
 function moveRoulette() {
-  gNowSelected = (gNowSelected+1)%gPrefIdx.length; // FIXME: now "not" selected
+  gNowSelected = (gNowSelected+1)%gPrefIdx.length;
   var idx_old = gNowSelected-1;
   if(idx_old < 0) {
     idx_old = gPrefIdx.length-1;
