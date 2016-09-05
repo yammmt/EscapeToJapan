@@ -17,17 +17,19 @@ var PREF_ALL = new Array();
 const BTN_CLASSNAME_CAN_BE_SELECTED     = 'btn btn-primary';
 const BTN_CLASSNAME_CAN_NOT_BE_SELECTED = 'btn btn-default';
 const BTN_CLASSNAME_NOW_SELECTED        = 'btn btn-warning';
+const BTN_CLASSNAME_RESULT              = 'btn btn-danger'
 
 // const parameters
-const ROULETTE_SPEED_DEFAULT     = 300;  // [ms]
-const ROULETTE_SPEED_UPPER_LIMIT = 5000; // [ms]
-const TIME_TO_STOP_MIN           = 1000; // [ms]
+const ROULETTE_SPEED_DEFAULT     = 100;  // [ms]
+const ROULETTE_SPEED_UPPER_LIMIT = 6000; // [ms]
+const TIME_TO_STOP_MIN           = 50;   // [ms]
 const TIME_TO_STOP_MAX           = 5000; // [ms]
+const TIME_ADDED_UPPER_LIMIT     = 700;  // [ms]
 
 // other global var
 var gPrefIdx = new Array();
 var gPrefElem;                 // used as "gPrefElem[gPrefIdx[i]]"
-var gNowSelected = 0;
+var gNowSelected;
 var gRouletteTimeoutID;
 
 function changeButtonStatus(e) {
@@ -46,13 +48,13 @@ function loopRoulette(intervalTime) {
 
 // FIXME: this might be a very slow function
 function moveRoulette() {
+  gNowSelected = (gNowSelected+1)%gPrefIdx.length; // FIXME: now "not" selected
   var idx_old = gNowSelected-1;
   if(idx_old < 0) {
     idx_old = gPrefIdx.length-1;
   }
   gPrefElem[gPrefIdx[idx_old]].className = BTN_CLASSNAME_CAN_BE_SELECTED;
   gPrefElem[gPrefIdx[gNowSelected]].className = BTN_CLASSNAME_NOW_SELECTED;
-  gNowSelected = (gNowSelected+1)%gPrefIdx.length; // FIXME: now "not" selected
 }
 
 function startRoulette(e) {
@@ -69,6 +71,7 @@ function startRoulette(e) {
     }
   }
   gPrefElem = document.getElementsByName("pref");
+  gNowSelected = Math.round(Math.random()*gPrefIdx.length);
   loopRoulette(ROULETTE_SPEED_DEFAULT);
 }
 
@@ -78,19 +81,19 @@ function stopRoulette(e) {
     loopRoulette(intervalTime);
     setTimeout(function() {
       clearTimeout(gRouletteTimeoutID);
-      intervalTime += Math.random()+1000;
+      intervalTime += TIME_ADDED_UPPER_LIMIT*Math.random();
       if(intervalTime < ROULETTE_SPEED_UPPER_LIMIT) {
         struggleRoulette(intervalTime);
       }
       else {
-        window.alert(PREF_ALL[gPrefIdx[gNowSelected]]);
+        gPrefElem[gPrefIdx[gNowSelected]].className = BTN_CLASSNAME_RESULT;
       }
     }, timeToStop);
   }
 
   e.disabled = true;
   clearTimeout(gRouletteTimeoutID);
-  var intervalTime = ROULETTE_SPEED_DEFAULT+Math.random()*3.0;
+  var intervalTime = ROULETTE_SPEED_DEFAULT;
   struggleRoulette(intervalTime);
 }
 
