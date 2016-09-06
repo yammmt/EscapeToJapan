@@ -86,6 +86,7 @@ function stopRoulette(e) {
       }
       else {
         gPrefElem[gPrefIdx[gNowSelected]].className = BTN_CLASSNAME_RESULT;
+        resultInfo();
       }
     }, timeToStop);
   }
@@ -94,6 +95,16 @@ function stopRoulette(e) {
   clearTimeout(gRouletteTimeoutID);
   var intervalTime = ROULETTE_SPEED_DEFAULT;
   struggleRoulette(intervalTime);
+}
+
+function resultInfo() {
+  var link2Sightseeing = "https://www.google.co.jp/search?q=" + PREF_ALL[gPrefIdx[gNowSelected]] + "+観光";
+  var infoBtnHtml = "<br>";
+  infoBtnHtml += "<button type='button' class='" + BTN_CLASSNAME_RESULT;
+  infoBtnHtml += "' onclick=\"window.open('" + link2Sightseeing + "')\">";
+  infoBtnHtml += "\"" + PREF_ALL[gPrefIdx[gNowSelected]] + " 観光\" on Google" + "</button>";
+  console.log(infoBtnHtml);
+  document.getElementById("resultID").innerHTML = infoBtnHtml;
 }
 
 function init() {
