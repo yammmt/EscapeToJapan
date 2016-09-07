@@ -8,20 +8,23 @@
   <script src="jquery/jquery-3.1.0.min.js"></script>
   <script src="bootstrap/bootstrap.min.js"></script>
   <script type="text/javascript" src="main.js"></script>
-  <title>dartsTravelJP</title>
+  <title>EscapeToJapan</title>
 </head>
 
 <body onload="init()">
 
-  <div class="panel panel-default">
+  <div class="panel panel-info">
     <div class="panel-heading">
-      <h2>dartsTravelJP</h2>
+      <div class="panel-title">
+        <h3>EscapeToJapan</h3>
+      </div>
     </div>
 
     <div class="panel-body">
-      <button type="button" class="btn btn-info" name="btn_start" onclick="startRoulette(this)" autocomplete="off">Start</button>
-      <button type="button" class="btn btn-info" name="btn_stop" onclick="stopRoulette(this)" autocomplete="off">Stop</button>
+      <button type="button" class="btn btn-info" name="btn_start" onclick="startRoulette(this)" autocomplete="off">START</button>
+      <button type="button" class="btn btn-info" name="btn_stop" onclick="stopRoulette(this)" autocomplete="off">STOP</button>
       <br>
+      <p id="resultID"></p>
       <br>
       <p id="prefBtnID"></p>
     </div>

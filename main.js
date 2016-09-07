@@ -22,13 +22,13 @@ const BTN_CLASSNAME_RESULT              = 'btn btn-danger'
 // const parameters
 const ROULETTE_SPEED_DEFAULT     = 100;  // [ms]
 const ROULETTE_SPEED_UPPER_LIMIT = 6000; // [ms]
-const TIME_TO_STOP_MIN           = 50;   // [ms]
-const TIME_TO_STOP_MAX           = 5000; // [ms]
-const TIME_ADDED_UPPER_LIMIT     = 700;  // [ms]
+const TIME_TO_CLEAR_MIN          = 50;   // [ms]
+const TIME_TO_CLEAR_MAX          = 5000; // [ms]
+const TIME_TO_CLEAR_ADDED_MAX    = 700;  // [ms]
 
 // other global var
 var gPrefIdx = new Array();
-var gPrefElem;                 // used as "gPrefElem[gPrefIdx[i]]"
+var gPrefElem;              // used as "gPrefElem[gPrefIdx[i]]"
 var gNowSelected;
 var gRouletteTimeoutID;
 
@@ -46,9 +46,8 @@ function loopRoulette(intervalTime) {
   gRouletteTimeoutID = setTimeout(function() {loopRoulette(intervalTime)}, intervalTime);
 }
 
-// FIXME: this might be a very slow function
 function moveRoulette() {
-  gNowSelected = (gNowSelected+1)%gPrefIdx.length; // FIXME: now "not" selected
+  gNowSelected = (gNowSelected+1)%gPrefIdx.length;
   var idx_old = gNowSelected-1;
   if(idx_old < 0) {
     idx_old = gPrefIdx.length-1;
@@ -77,16 +76,17 @@ function startRoulette(e) {
 
 function stopRoulette(e) {
   function struggleRoulette(intervalTime) {
-    var timeToStop = TIME_TO_STOP_MAX*Math.random()+TIME_TO_STOP_MIN;
+    var timeToStop = TIME_TO_CLEAR_MAX*Math.random()+TIME_TO_CLEAR_MIN;
     loopRoulette(intervalTime);
     setTimeout(function() {
       clearTimeout(gRouletteTimeoutID);
-      intervalTime += TIME_ADDED_UPPER_LIMIT*Math.random();
+      intervalTime += TIME_TO_CLEAR_ADDED_MAX*Math.random();
       if(intervalTime < ROULETTE_SPEED_UPPER_LIMIT) {
         struggleRoulette(intervalTime);
       }
       else {
         gPrefElem[gPrefIdx[gNowSelected]].className = BTN_CLASSNAME_RESULT;
+        resultInfo();
       }
     }, timeToStop);
   }
@@ -95,6 +95,16 @@ function stopRoulette(e) {
   clearTimeout(gRouletteTimeoutID);
   var intervalTime = ROULETTE_SPEED_DEFAULT;
   struggleRoulette(intervalTime);
+}
+
+function resultInfo() {
+  var link2Sightseeing = "https://www.google.co.jp/search?q=" + PREF_ALL[gPrefIdx[gNowSelected]] + "+観光";
+  var infoBtnHtml = "<br>";
+  infoBtnHtml += "<button type='button' class='" + BTN_CLASSNAME_RESULT;
+  infoBtnHtml += "' onclick=\"window.open('" + link2Sightseeing + "')\">";
+  infoBtnHtml += "\"" + PREF_ALL[gPrefIdx[gNowSelected]] + " 観光\" on Google" + "</button>";
+  console.log(infoBtnHtml);
+  document.getElementById("resultID").innerHTML = infoBtnHtml;
 }
 
 function init() {
