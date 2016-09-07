@@ -1,7 +1,5 @@
 # EscapeToJapan
 
-___
-
 NEETs, get out of your room and go somewhere decided by your own fortune.  
 
 ## Abstract
@@ -11,9 +9,6 @@ Once you click Blue button (before click START button), that button changes to w
 When the roulette stops, selected button changes to red and link to Google appears. (To visit Google, you need to connect Internet, not only local.)
 
 ### Parameters
-intervalTime: ルーレットを動かす間隔
-timeTostop: clearTimeoutを呼び出す間隔
-
 Following parameters are defined in the main.js:
 - ROULETTE_SPEED_DEFAULT
   - The roulette speed until you click STOP button.
