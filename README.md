@@ -1,4 +1,4 @@
-# dartsTravelJP
+# EscapeToJapan
 
 ___
 
