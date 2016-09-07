@@ -22,9 +22,9 @@ const BTN_CLASSNAME_RESULT              = 'btn btn-danger'
 // const parameters
 const ROULETTE_SPEED_DEFAULT     = 100;  // [ms]
 const ROULETTE_SPEED_UPPER_LIMIT = 6000; // [ms]
-const TIME_TO_STOP_MIN           = 50;   // [ms]
-const TIME_TO_STOP_MAX           = 5000; // [ms]
-const TIME_ADDED_UPPER_LIMIT     = 700;  // [ms]
+const TIME_TO_CLEAR_MIN          = 50;   // [ms]
+const TIME_TO_CLEAR_MAX          = 5000; // [ms]
+const TIME_TO_CLEAR_ADDED_MAX    = 700;  // [ms]
 
 // other global var
 var gPrefIdx = new Array();
@@ -76,11 +76,11 @@ function startRoulette(e) {
 
 function stopRoulette(e) {
   function struggleRoulette(intervalTime) {
-    var timeToStop = TIME_TO_STOP_MAX*Math.random()+TIME_TO_STOP_MIN;
+    var timeToStop = TIME_TO_CLEAR_MAX*Math.random()+TIME_TO_CLEAR_MIN;
     loopRoulette(intervalTime);
     setTimeout(function() {
       clearTimeout(gRouletteTimeoutID);
-      intervalTime += TIME_ADDED_UPPER_LIMIT*Math.random();
+      intervalTime += TIME_TO_CLEAR_ADDED_MAX*Math.random();
       if(intervalTime < ROULETTE_SPEED_UPPER_LIMIT) {
         struggleRoulette(intervalTime);
       }
