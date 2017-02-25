@@ -17,7 +17,7 @@ var PREF_ALL = new Array();
 const BTN_CLASSNAME_CAN_BE_SELECTED     = 'btn btn-primary';
 const BTN_CLASSNAME_CAN_NOT_BE_SELECTED = 'btn btn-default';
 const BTN_CLASSNAME_NOW_SELECTED        = 'btn btn-warning';
-const BTN_CLASSNAME_RESULT              = 'btn btn-danger'
+const BTN_CLASSNAME_RESULT              = 'btn btn-danger';
 
 // const parameters
 const ROULETTE_SPEED_DEFAULT     = 100;  // [ms]
@@ -43,8 +43,9 @@ function changeButtonStatus(e) {
 
 function loopRoulette(intervalTime) {
   moveRoulette();
-  gRouletteTimeoutID = setTimeout(function() {loopRoulette(intervalTime)}, intervalTime);
+  gRouletteTimeoutID = setTimeout(function() { loopRoulette(intervalTime); }, intervalTime);
 }
+
 
 function moveRoulette() {
   gNowSelected = (gNowSelected+1)%gPrefIdx.length;
