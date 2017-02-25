@@ -1,12 +1,12 @@
 # EscapeToJapan
 
-NEETs, get out of your room and go somewhere decided by your own fortune.  
+I want to do nothing...
 
 ## Abstract
-If you open index.html and click START button, the roulette starts. And then you click STOP button, the roulette stops at random.  
+If you open index.html and click START button, the roulette starts. And then you click STOP button, the roulette stops with randomness.  
 Once you click Blue button (before click START button), that button changes to white button and can**not** be selected by roulette. Of course, if you click white button, that button changes to blue button and can be selected.
 
-When the roulette stops, selected button changes to red and link to Google appears. (To visit Google, you need to connect Internet, not only local.)
+When the roulette stops, selected button changes to red and link to Google appears. (To visit Google, you need to connect Internet.)
 
 ### Parameters
 Following parameters are defined in the main.js:
@@ -18,9 +18,9 @@ Following parameters are defined in the main.js:
   - The shortest time to decelerate roulette speed after you click STOP button.
 - TIME_TO_CLEAR_MAX
   - The longest time to decelerate roulette speed after you click STOP button.
-  - Actually, the real longest time is not the same as this.
+  - Actually, the real maximum time is not the same as this.
 - TIME_TO_CLEAR_ADDED_MAX
-  - The longest time added to inteval time (clear setTimeout).
+  - The maximum time added to inteval time (clear setTimeout).
 
 Note that roulette speed and the time to clear timeoutID is **not** the same parameters.
 
